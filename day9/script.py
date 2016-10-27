@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-
-import sys,re
+import re,math
 
 nodes = []
 graph = []
@@ -16,89 +15,46 @@ for line in open('input.txt', 'r'):
     if arrive not in nodes:
         nodes.append(arrive)
 
-    graph.append({'ends': [depart, arrive], 'distance': int(distance)})
+    graph.append({'start': depart, 'end': arrive, 'distance': int(distance)})
+    graph.append({'start': arrive, 'end': depart, 'distance': int(distance)})
 
-def getDepartArrive(depart, ends):
-    if ends[0] == depart:
-        return (ends[0], ends[1])
-    elif ends[1] == depart:
-        return (ends[1], ends[0])
+def recursiveSalesman(visited_nodes, arrive, nodes, graph, limit, method, distance):
+    last_node = visited_nodes[-1:][0]
+
+    shortest_distance = limit
+    shortest_path = False
+    for node in graph:
+        if node['start'] == last_node and node['end'] not in visited_nodes:
+            (new_path, new_distance) = recursiveSalesman(visited_nodes + [node['end']], arrive, nodes, graph, limit, method, distance + node['distance'])
+
+            if method(new_distance, shortest_distance):
+                shortest_distance = new_distance
+                shortest_path = new_path
+
+    if shortest_path is False:
+        if last_node == arrive and len(nodes) == len(visited_nodes):
+            return (visited_nodes, distance)
+        else:
+            return ([], limit)
     else:
-        return (False, False)
+        return (shortest_path, shortest_distance)
 
-def findShortestStep(depart, steps, graph):
-    #print("Depart: %s" % depart)
-    #print(steps)
-    arrive = False
-    shortest = 0
-    for node in graph:
-        (d, a) = getDepartArrive(depart, node['ends'])
-        #print("d,a: %s => %s" % (d,a))
-        if depart == d and a not in steps and (shortest == 0 or node['distance'] < shortest):
-            shortest = node['distance']
-            arrive = a
+def shortest(a, b):
+    return a < b
 
-    return (arrive, shortest)
+def longest(a, b):
+    return a > b
 
-# Cycle through all the possible combinations of departure and arrival nodes
-# and run Dijkstra's algorithm algorithm for each, keep the lowest
+def calculatePath(method, limit, nodes, graph):
+    shortest = ([], limit)
+    for depart in nodes:
+        for arrive in nodes[(len(nodes) - nodes.index(depart)) * -1:]:
+            if depart != arrive:
+                new = recursiveSalesman([depart], arrive, nodes, graph, limit, method, 0)
+                if method(new[1],  shortest[1]):
+                    shortest = new
 
-def dijkstra(depart, arrive, graph):
-    # Keep an array of lists of nodes with their corresponding lengths
-    # For each step, find the shortest length and add the shortest path
-    # Until there are no more possible steps left, then return the
-    # shortest list of nodes
+    print("The %s path is %s with distance %s" % (method.__name__, ' -> '.join(shortest[0]), shortest[1]))
 
-    #print("%s => %s" % (depart, arrive))
-    lists = []
-    for node in graph:
-        (d, a) = getDepartArrive(depart, node['ends'])
-        if d:
-            lists.append({'steps': [d, a], 'distance': node['distance']})
-
-    done = False
-    while not done:
-        potential = {}
-        i = 0
-        for l in lists:
-            if len(l['steps']) > 7:
-                sys.exit()
-
-            #print("List")
-            #print(l)
-
-            d = l['steps'][-1:][0]
-
-            (a, shortest) = findShortestStep(d, l['steps'], graph)
-
-            #print("Shortest")
-            #print({'a': a, 'shortest': shortest})
-
-            if shortest > 0 and (len(potential) == 0 or shortest + l['distance'] < potential['distance']):
-                potential = {'index': i, 'arrive': a, 'distance': shortest}
-
-            #print("")
-
-            if d == arrive:
-                print(l, potential)
-                return l['distance'] + potential['distance']
-
-        #print("Potential")
-        #print(potential)
-
-        if len(potential) > 0:
-            lists[potential['index']]['steps'].append(potential['arrive'])
-            lists[potential['index']]['distance'] += potential['distance']
-            #print(lists[potential['index']])
-        else: 
-            done = True
-
-shortest = 0
-for depart in nodes:
-    for arrive in nodes:
-        if depart != arrive:
-            distance = dijkstra(depart, arrive, graph)
-            if (shortest == 0 or distance < shortest):
-                shortest = distance
-
-print("The shortest path is %d" % shortest)
+calculatePath(shortest, math.inf, nodes, graph)
+calculatePath(longest, -1, nodes, graph)
