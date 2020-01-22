@@ -58,5 +58,6 @@ assert(hasImprovedDouble(str(112233)) == True)
 assert(hasImprovedDouble(str(123444)) == False)
 assert(hasImprovedDouble(str(111122)) == True)
 
-print("Number of total possible passwords are:", sum([1 for i in range(start, end) if isValid(str(i))]))
-print("Number of total possible improved passwords are:", sum([1 for i in range(start, end) if isImprovedValid(str(i))]))
+def run():
+    print("Number of total possible passwords are:", sum([1 for i in range(start, end) if isValid(str(i))]))
+    print("Number of total possible improved passwords are:", sum([1 for i in range(start, end) if isImprovedValid(str(i))]))
