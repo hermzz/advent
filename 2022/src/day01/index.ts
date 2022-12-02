@@ -16,7 +16,7 @@ const parseInput = (rawInput: string) => {
 
     accumulator.push(parseInt(v));
   });
-  
+
   calories.push(accumulator);
 
   return calories;

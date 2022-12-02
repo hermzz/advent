@@ -1,6 +1,8 @@
 import run from "aocrunner";
 
-type Choice = "rock" | "paper" | "scissors";
+const choices = ["rock", "paper", "scissors"] as const;
+type Choice = typeof choices[number];
+
 type Game = {
   opponent: Choice;
   mine: Choice;
@@ -13,42 +15,24 @@ const winMap: Record<Choice, Choice> = {
   "scissors": "paper"
 };
 
-const choicePrize = {
-  "rock": 1,
-  "paper": 2,
-  "scissors": 3
+const choiceMap: Record<string, Choice> = {
+  "A": "rock", "X": "rock",
+  "B": "paper", "Y": "paper",
+  "C": "scissors", "Z": "scissors"
 };
 
-const parseChoice = (input: string): Choice => {
-  if (input == "A" || input == "X") {
-    return "rock";
-  } else if (input == "B" || input == "Y") {
-    return "paper";
-  } else if (input == "C" || input == "Z") {
-    return "scissors";
-  }
-
-  throw Error(`Unreconized option: ${input}`);
-}
-
-const parseChoicePrediction = (choice: Choice, prediction: string): Choice => {
-  if (prediction == "Y") {
-    return choice;
-  } else if (prediction == "Z") {
-    return winMap[winMap[choice]];
-  } else if (prediction === "X") {
-    return winMap[choice];
-  }
-
-  throw Error(`Unreconized option: ${prediction}`);
-}
+const predictionMap: Record<string, (c: Choice) => Choice> = {
+  "X": c => winMap[c],
+  "Y": c => c,
+  "Z": c => winMap[winMap[c]],
+};
 
 const parseInput = (rawInput: string): Games => rawInput.split("\n").map(line => {
   const [ left, right ] = line.split(" ");
 
   return {
-    opponent: parseChoice(left),
-    mine: parseChoice(right)
+    opponent: choiceMap[left],
+    mine: choiceMap[right]
   };
 });
 
@@ -56,17 +40,17 @@ const parseInputPrediction = (rawInput: string): Games => rawInput.split("\n").m
   const [ left, right ] = line.split(" ");
 
   return {
-    opponent: parseChoice(left),
-    mine: parseChoicePrediction(parseChoice(left), right)
+    opponent: choiceMap[left],
+    mine: predictionMap[right](choiceMap[left])
   };
 });
 
 const calculateOutcome = (game: Game): number => {
   if (game.opponent == game.mine) {
-    return choicePrize[game.mine] + 3;
+    return choices.indexOf(game.mine) + 1 + 3;
   }
 
-  return choicePrize[game.mine] + (winMap[game.mine] == game.opponent ? 6 : 0);
+  return choices.indexOf(game.mine) + 1 + (winMap[game.mine] == game.opponent ? 6 : 0);
 }
 
 const part1 = (rawInput: string) =>
