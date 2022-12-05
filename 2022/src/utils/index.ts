@@ -29,3 +29,11 @@
  *     import { myUtil } from '../utils'
  *
  */
+
+Array.prototype.chunks = function chunks<T>(this: T[], size: number): T[][] {
+  const output: T[][] = [];
+  for (let i = 0; i < this.length; i += size) {
+    output.push(this.slice(i, i + size));
+  }
+  return output;
+}

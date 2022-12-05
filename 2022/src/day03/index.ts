@@ -1,4 +1,5 @@
 import run from "aocrunner";
+import "../utils/index.js";
 
 type Compartment = number[];
 type Rucksack = number[];
@@ -20,25 +21,15 @@ const findCommonItems = (r1: number[], r2: number[]) => r1.filter(o => r2.some(p
 
 const part1 = (rawInput: string) =>
   parseInput(rawInput)
-  .map(rucksackCompartments)
-  .map(r => findCommonItems(r[0], r[1]))
-  .reduce((prev, curr) => prev + curr[0], 0)
-;
-
-const part2 = (rawInput: string) => {
-  const groups: Rucksack[][] = [];
-
-  parseInput(rawInput).forEach((r, i) => {
-    if (groups.length == Math.floor(i / 3)) {
-      groups.push([]);
-    }
-
-    groups[Math.floor(i / 3)].push(r);
-  });
-
-  return groups.map(group => findCommonItems(findCommonItems(group[0], group[1]), group[2]))
+    .map(rucksackCompartments)
+    .map(r => findCommonItems(r[0], r[1]))
     .reduce((prev, curr) => prev + curr[0], 0);
-};
+
+const part2 = (rawInput: string) => 
+  parseInput(rawInput)
+    .chunks(3)
+    .map(group => findCommonItems(findCommonItems(group[0], group[1]), group[2]))
+    .reduce((prev, curr) => prev + curr[0], 0);
 
 run({
   part1: {

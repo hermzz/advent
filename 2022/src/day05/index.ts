@@ -1,4 +1,5 @@
 import run from "aocrunner";
+import "../utils/index.js";
 
 type Crate = string;
 type Stack = Crate[];
@@ -9,20 +10,6 @@ type Instruction = {
   from: number,
   to: number
 };
-
-declare global {
-  interface Array<T> {
-    chunks<T>(this: T[], size: number): T[][];
-  }
-}
-
-Array.prototype.chunks = function chunks<T>(this: T[], size: number): T[][] {
-  const output: T[][] = [];
-  for (let i = 0; i < this.length; i += size) {
-    output.push(this.slice(i, i + size));
-  }
-  return output;
-}
 
 const parseInstruction = (line: string): Instruction => {
   const [ _a, n, _b, from, _c, to ] = line.split(" ");

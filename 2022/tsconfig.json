@@ -10,8 +10,10 @@
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
+  "files": ["src/utils/index.ts"],
   "include": [
     "src"
   ],
