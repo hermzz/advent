@@ -1,32 +1,21 @@
 
-type Calories = Vec<u32>;
+type Calories = Vec<usize>;
 type CaloryGroup = Vec<Calories>;
 
 #[aoc_generator(day1)]
 fn input_generator(input: &str) -> CaloryGroup {
-    let mut calory_group: CaloryGroup = Vec::new();
-    let mut accumulator: Calories = Vec::new();
-
-    input.split("\n").for_each(|v| {
-        if v == "" {
-          calory_group.push(accumulator.clone());
-          accumulator = Vec::new();
-          return;
-        }
-
-        accumulator.push(v.parse::<u32>().unwrap());
-    });
-
-    calory_group.push(accumulator.clone());
-
-    calory_group
+    input
+        .split("\n\n")
+        .map(|group|
+            group.split("\n").map(|item| item.parse::<usize>().unwrap()).collect()
+        ).collect()
 }
 
-pub fn calc_total(calories: &Calories) -> u32 {
+pub fn calc_total(calories: &Calories) -> usize {
     calories.into_iter().fold(0, |acc, elem| acc + elem)
 }
 
-pub fn find_max_calories(calory_group: &CaloryGroup) -> u32 {
+pub fn find_max_calories(calory_group: &CaloryGroup) -> usize {
     calory_group.into_iter().fold(0, |acc, elem| match calc_total(elem) > acc {
         true => calc_total(elem),
         false => acc
@@ -43,12 +32,12 @@ pub fn get_top_groups(calory_group: &CaloryGroup, n: usize) -> CaloryGroup {
 }
 
 #[aoc(day1, part1)]
-fn part1(calory_group: &CaloryGroup) -> u32 {
+fn part1(calory_group: &CaloryGroup) -> usize {
     find_max_calories(calory_group)
 }
 
 #[aoc(day1, part2)]
-fn part2(calory_group: &CaloryGroup) -> u32 {
+fn part2(calory_group: &CaloryGroup) -> usize {
     get_top_groups(calory_group, 3)
     .into_iter()
     .fold(0, |acc, elem| acc + calc_total(&elem))

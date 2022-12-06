@@ -1,17 +1,16 @@
-type Compartment = Vec<u32>;
-type Compartments = (Compartment, Compartment);
-type Rucksack = Vec<u32>;
+type Compartment<'a> = &'a [usize];
+type Rucksack = Vec<usize>;
 
-pub fn char_to_priority(c: char) -> u32 {
+pub fn char_to_priority(c: char) -> usize {
     match c {
-        'a'..='z' => c as u32 - 'a' as u32 + 1,
-        'A'..='Z' => c as u32 - 'A' as u32 + 27,
+        'a'..='z' => c as usize - 'a' as usize + 1,
+        'A'..='Z' => c as usize - 'A' as usize + 27,
         _ => panic!("Oops")
     }
 }
 
-pub fn find_common_items(c1: &Compartment, c2: &Compartment) -> Vec<u32> {
-    c1.iter().filter(|o| { c2.iter().any(|p| o.clone() == p) }).map(|o| o.clone()).collect()
+pub fn find_common_items(c1: Compartment, c2: Compartment) -> Vec<usize> {
+    c1.iter().map(|o| o.clone()).filter(|o| { c2.iter().any(|p| o == p) }).collect()
 }
 
 #[aoc_generator(day3)]
@@ -20,18 +19,16 @@ fn input_generator(input: &str) -> Vec<Rucksack> {
 }
 
 #[aoc(day3, part1)]
-fn part1(rucksacks: &Vec<Rucksack>) -> u32 {
-    let rucksack_compartments = |r: &Rucksack| -> Compartments { (r[0..r.len() / 2].to_vec(), r[r.len() / 2..].to_vec()) };
-
+fn part1(rucksacks: &Vec<Rucksack>) -> usize {
     rucksacks
         .iter()
-        .map(rucksack_compartments)
+        .map(|r| r.split_at(r.len() / 2))
         .map(|r| { find_common_items(&r.0, &r.1) })
         .fold(0, |acc, elem| { acc + elem[0] })
 }
 
 #[aoc(day3, part2)]
-fn part2(rucksacks: &Vec<Rucksack>) -> u32 {
+fn part2(rucksacks: &Vec<Rucksack>) -> usize {
     rucksacks
         .chunks(3)
         .into_iter()
