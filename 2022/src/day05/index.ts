@@ -21,8 +21,8 @@ const parseInputStack = (rawLines: string): Container => {
   const lines = rawLines.split("\n");
   const container: Container = Array((lines[0].length + 1) / 4).fill(null).map(_e => new Array());
 
-  lines.forEach(line => {
-    line.split("").chunks(4).map((v, i) => {
+  lines.slice(0, -1).forEach(line => {
+    line.split("").chunks(4).forEach((v, i) => {
       if (v[1] != ' ') {
         container[i].unshift(v[1]);
       }
