@@ -122,10 +122,10 @@
     },
     {
       "part1": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "5695",
         "attempts": [],
-        "time": null
+        "time": 10.096606
       },
       "part2": {
         "solved": false,
@@ -136,16 +136,16 @@
     },
     {
       "part1": {
-        "solved": false,
-        "result": null,
+        "solved": true,
+        "result": "16020",
         "attempts": [],
-        "time": null
+        "time": 0.096751
       },
       "part2": {
         "solved": false,
-        "result": null,
+        "result": "ECZUZALR",
         "attempts": [],
-        "time": null
+        "time": 0.766944
       }
     },
     {

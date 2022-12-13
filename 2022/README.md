@@ -19,8 +19,8 @@
 [![Day](https://badgen.net/badge/06/%E2%98%85%E2%98%85/green)](src/day06)
 [![Day](https://badgen.net/badge/07/%E2%98%85%E2%98%85/green)](src/day07)
 [![Day](https://badgen.net/badge/08/%E2%98%85%E2%98%85/green)](src/day08)
-![Day](https://badgen.net/badge/09/%E2%98%86%E2%98%86/gray)
-![Day](https://badgen.net/badge/10/%E2%98%86%E2%98%86/gray)
+[![Day](https://badgen.net/badge/09/%E2%98%85%E2%98%86/yellow)](src/day09)
+[![Day](https://badgen.net/badge/10/%E2%98%85%E2%98%86/yellow)](src/day10)
 ![Day](https://badgen.net/badge/11/%E2%98%86%E2%98%86/gray)
 ![Day](https://badgen.net/badge/12/%E2%98%86%E2%98%86/gray)
 ![Day](https://badgen.net/badge/13/%E2%98%86%E2%98%86/gray)
@@ -71,70 +71,70 @@ yarn start 1
 Day 01
 Time part 1: 0.418ms
 Time part 2: 1.211ms
-Both parts: 1.628211ms
+Both parts: 1.628ms
 ```
 
 ```
 Day 02
 Time part 1: 2.058ms
 Time part 2: 2.424ms
-Both parts: 4.482047ms
+Both parts: 4.482ms
 ```
 
 ```
 Day 03
 Time part 1: 2.384ms
 Time part 2: 0.842ms
-Both parts: 3.2262359999999997ms
+Both parts: 3.226ms
 ```
 
 ```
 Day 04
 Time part 1: 1.806ms
 Time part 2: 2.257ms
-Both parts: 4.062858ms
+Both parts: 4.063ms
 ```
 
 ```
 Day 05
-Time part 1: 2.244ms
-Time part 2: 1.236ms
-Both parts: 3.4800319999999996ms
+Time part 1: 0.892ms
+Time part 2: 1.091ms
+Both parts: 1.984ms
 ```
 
 ```
 Day 06
 Time part 1: 0.675ms
 Time part 2: 1.676ms
-Both parts: 2.350844ms
+Both parts: 2.351ms
 ```
 
 ```
 Day 07
 Time part 1: 1.246ms
 Time part 2: 0.741ms
-Both parts: 1.986799ms
+Both parts: 1.987ms
 ```
 
 ```
 Day 08
-Time part 1: 522.538ms
-Time part 2: 377.45ms
-Both parts: 899.987978ms
+Time part 1: 568.185ms
+Time part 2: 383.734ms
+Both parts: 951.919ms
 ```
 
 ```
 Day 09
-Time part 1: -
+Time part 1: 10.097ms
 Time part 2: -
-Both parts: -
+Both parts: 10.097ms
 ```
 
 ```
 Day 10
-Time part 1: -
+Time part 1: 0.123ms
 Time part 2: -
-Both parts: -
+Both parts: 0.123ms
 ```
 
 ```
@@ -243,8 +243,8 @@ Both parts: -
 ```
 
 ```
-Total stars: 16/50
-Total time: 921.205ms
+Total stars: 18/50
+Total time: 981.859ms
 ```
 
 <!--/RESULTS-->
