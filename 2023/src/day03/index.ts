@@ -1,9 +1,8 @@
 import run from "aocrunner";
-import { finished } from "stream";
 
-type Grid = number[][];
+type Grid = string[][];
 type NumberMatch = {
-  n: number,
+  n: string,
   symbols: Symbol[]
 }
 type Symbol = {
@@ -14,12 +13,13 @@ type Symbol = {
 
 const parseInput = (rawInput: string) => rawInput.split("\n").map(line => line.split(""));
 
-const isIn = (symbols: Symbol[], symbol: Symbol): boolean => symbols.reduce((pv, v) => pv || (v.i == symbol.i && v.j == symbol.j), false);
+const isIn = (symbols: Symbol[], symbol: Symbol): boolean =>
+  symbols.reduce((pv, v) => pv || (v.i == symbol.i && v.j == symbol.j), false);
 
 const extractNumbers = (grid: Grid): NumberMatch[]=> {
   let numbers: NumberMatch[] = [];
-  let currNumber = null;
-  let symbols = [];
+  let currNumber: string|null = null;
+  let symbols: Symbol[] = [];
   for (let i = 0; i < grid.length; i++) {
     currNumber = null;
     symbols = []
@@ -47,15 +47,15 @@ const extractNumbers = (grid: Grid): NumberMatch[]=> {
   return numbers;
 }
 
-const isNumber = (grid: string[][], i: number, j: number): boolean =>
+const isNumber = (grid: Grid, i: number, j: number): boolean =>
   ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'].indexOf(grid[i][j]) >= 0
 ;
 
-const isSymbol = (grid: string[][], i: number, j: number): boolean =>
+const isSymbol = (grid: Grid, i: number, j: number): boolean =>
   grid[i][j] != '.' && !isNumber(grid, i, j);
 ;
 
-const posNextToSymbol = (grid: string[][], i: number, j: number): Symbol[] => {
+const posNextToSymbol = (grid: Grid, i: number, j: number): Symbol[] => {
   let i_range = [0];
   if (i > 0) {
     i_range.push(-1);
@@ -83,7 +83,7 @@ const posNextToSymbol = (grid: string[][], i: number, j: number): Symbol[] => {
     }
   }
 
-  return symbols
+  return symbols;
 };
 
 const part1 = (rawInput: string) =>
@@ -91,7 +91,7 @@ const part1 = (rawInput: string) =>
     .reduce((pv, v) => pv + parseInt(v.n), 0);
 
 const part2 = (rawInput: string) => {
-  const coords: Record<string, number[]> = {};
+  const coords: Record<string, string[]> = {};
   extractNumbers(parseInput(rawInput))
     .forEach(match => match.symbols.forEach(symbol => {
       if (symbol.s == '*') {
