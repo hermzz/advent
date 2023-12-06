@@ -24,16 +24,16 @@ const parseInputSingleRace = (rawInput: string): Race => {
   return { time: parseInt(time), distance: parseInt(distance) };
 };
 
-const calcDistance = (t: number, totalTime: number): number => {
-  return t * (totalTime - t);
-}
-
 const countWins = (race: Race): number => {
-  let wins = 0;
-  for (let t = 1; t < race.time; t++) {
-    wins += calcDistance(t, race.time) > race.distance ? 1 : 0
-  }
-  return wins;
+  // ax2 + bx + c, a = 1, b = -time, c = distance
+  let sqrt = Math.sqrt(race.time * race.time - 4 * race.distance);
+  let r1 = (race.time - sqrt) / 2
+  let r2 = (race.time + sqrt) / 2
+  if (Number.isInteger(r1)) { r1++; }
+  if (Number.isInteger(r2)) { r2--; }
+  r1 = Math.ceil(r1)
+  r2 = Math.floor(r2)
+  return (r2 - r1) + 1;
 }
 
 const part1 = (rawInput: string) =>
